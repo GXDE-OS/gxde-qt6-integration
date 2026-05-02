@@ -8,7 +8,11 @@ QT        += core gui widgets widgets-private core-private gui-private
 CONFIG    += link_pkgconfig c++11
 PKGCONFIG += dtkwidget
 
-TARGET = dstyleplugin-gxde
+equals(QT_MAJOR_VERSION, 6) {
+    TARGET = dstyle-plugin-gxde-bridge
+} else {
+    TARGET = dstyleplugin-gxde
+}
 TEMPLATE = lib
 CONFIG += plugin
 

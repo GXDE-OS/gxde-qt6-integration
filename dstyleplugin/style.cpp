@@ -57,7 +57,11 @@ QColor StylePrivate::outline(const QPalette &pal) const
 {
     if (pal.window().style() == Qt::TexturePattern)
         return QColor(0, 0, 0, 160);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return pal.background().color().darker(140);
+#else
+    return pal.window().color().darker(140);
+#endif
 }
 
 QColor StylePrivate::buttonColor(const QPalette &pal) const
@@ -251,9 +255,15 @@ void Style::polish(QWidget *w)
     // line edit completer drop-list
     if (widgetIsComboBoxPopupFramePrimitive(w)) {
         polish(palette);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         palette.setBrush(QPalette::Background, m_palette->brush(PaletteExtended::Menu_BackgroundBrush,
                                                                 PaletteExtended::PseudoClass_Unspecified,
                                                                 palette.brush(QPalette::Background)));
+#else
+        palette.setBrush(QPalette::Window, m_palette->brush(PaletteExtended::Menu_BackgroundBrush,
+                                                                PaletteExtended::PseudoClass_Unspecified,
+                                                                palette.brush(QPalette::Window)));
+#endif
     }
 
     // TODO(zccrs): 临时解决方案，用于支持应用程序中自定义DTabBar的被选中Tab的文本颜色
@@ -557,9 +567,16 @@ void Style::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOption *
     case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
     //    case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
     case PE_PanelMenu: {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QBrush menu_background_brush = m_palette->brush(PaletteExtended::Menu_BackgroundBrush,
                                                         PaletteExtended::PseudoClass_Unspecified,
                                                         option->palette.brush(QPalette::Background));
+#else
+        QBrush menu_background_brush = m_palette->brush(PaletteExtended::Menu_BackgroundBrush,
+                                                        PaletteExtended::PseudoClass_Unspecified,
+                                                        option->palette.brush(QPalette::Window));
+#endif
+
 #ifdef DTK_SUPPORT_BLUR_WINDOW
         QColor menu_background_color = menu_background_brush.color();
 
@@ -687,7 +704,11 @@ int Style::styleHint(QStyle::StyleHint sh, const QStyleOption *opt, const QWidge
     case SH_Menu_SubMenuUniDirection: return 1000;
 #endif
     case SH_Slider_AbsoluteSetButtons: return Qt::LeftButton;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     case SH_Slider_PageSetButtons: return Qt::MidButton;
+#else
+    case SH_Slider_PageSetButtons: return Qt::MiddleButton;
+#endif
 #if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
     case SH_Widget_Animate: return true;
 #endif
@@ -757,10 +778,15 @@ QSize Style::sizeFromContents(QStyle::ContentsType type, const QStyleOption *opt
 
                 int t = menuItem->text.indexOf(QLatin1Char('\t'));
                 if (t != -1) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     int textWidth = option->fontMetrics.width(menuItem->text.mid(t + 1));
-
                     if (menuItem->tabWidth == 0)
                         w -= textWidth;
+#else
+                    int textWidth = option->fontMetrics.horizontalAdvance(menuItem->text.mid(t + 1));
+                    if (menuItem->reservedShortcutWidth == 0)
+                        w -= textWidth;
+#endif
                 }
             }
 
@@ -777,7 +803,11 @@ QSize Style::sizeFromContents(QStyle::ContentsType type, const QStyleOption *opt
                     QFont fontBold = menuItem->font;
                     fontBold.setBold(true);
                     QFontMetrics fmBold(fontBold);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     w += fmBold.width(menuItem->text) - fm.width(menuItem->text);
+#else
+                    w += fmBold.horizontalAdvance(menuItem->text) - fm.horizontalAdvance(menuItem->text);
+#endif
                 }
             }
             int checkcol = qMax<int>(maxpmw, Menu_CheckMarkWidth); // Windows always shows a check column
@@ -1344,7 +1374,11 @@ QPixmap Style::colorizedImage(const QString &fileName, const QColor &color, int 
 {
     QString pixmapName = QLatin1String("$qt_ia-") % fileName % HexString<uint>(color.rgba()) % QString::number(rotation);
     QPixmap pixmap;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!QPixmapCache::find(pixmapName, pixmap)) {
+#else
+    if (!QPixmapCache::find(pixmapName, &pixmap)) {
+#endif
         QImage image(fileName);
 
         if (image.format() != QImage::Format_ARGB32_Premultiplied)

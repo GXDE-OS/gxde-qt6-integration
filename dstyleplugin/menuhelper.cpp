@@ -86,7 +86,11 @@ bool Style::drawMenuItemControl(const QStyleOption *option, QPainter *painter, c
                 proxy()->drawItemText(painter, menuItem->rect.adjusted(Menu_SeparatorItemHMargin, 0, -Menu_SeparatorItemHMargin, 0), Qt::AlignLeft | Qt::AlignVCenter,
                                       menuItem->palette, menuItem->state & State_Enabled, menuItem->text,
                                       QPalette::Text);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 w = menuItem->fontMetrics.width(menuItem->text) + Menu_SeparatorItemHMargin;
+#else
+                w = menuItem->fontMetrics.horizontalAdvance(menuItem->text) + Menu_SeparatorItemHMargin;
+#endif
             }
             painter->setPen(m_palette->brush(PaletteExtended::Menu_SeparatorColor, option).color());
             bool reverse = menuItem->direction == Qt::RightToLeft;
@@ -220,7 +224,12 @@ bool Style::drawMenuItemControl(const QStyleOption *option, QPainter *painter, c
         }
         int x, y, w, h;
         menuitem->rect.getRect(&x, &y, &w, &h);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         int tab = menuitem->tabWidth;
+#else
+        int tab = menuitem->reservedShortcutWidth;
+#endif
         QColor discol;
         if (dis) {
             discol = menuitem->palette.brush(QPalette::Disabled, QPalette::Text).color();
@@ -286,8 +295,13 @@ bool Style::drawMenuItemControl(const QStyleOption *option, QPainter *painter, c
             QStyleOptionMenuItem newMI = *menuItem;
             newMI.rect = vSubMenuRect;
             if (selected)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 newMI.palette.setColor(QPalette::Foreground,
                                        newMI.palette.highlightedText().color());
+#else
+                newMI.palette.setColor(QPalette::WindowText,
+                                       newMI.palette.highlightedText().color());
+#endif
 
             drawDeepinStyleIcon("arrow-right", &newMI, painter, widget);
         }

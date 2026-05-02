@@ -285,7 +285,11 @@ bool Style::drawSliderTickmarkLabels(const QStyleOption *option, QPainter *paint
 
             for (int i = 0; i < positions.length() && i < labels.length(); i++) {
                 const QString text = labels.at(i).toString();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 const int rWidth = option->fontMetrics.width(text);
+#else
+                const int rWidth = option->fontMetrics.horizontalAdvance(text);
+#endif
 
                 const int deltaX = slider->x() - widget->x();
                 const int x = positions.at(i).toInt() + deltaX;

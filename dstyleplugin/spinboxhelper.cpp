@@ -138,7 +138,11 @@ QRect Style::spinboxSubControlRect(const QStyleOptionComplex *opt, QStyle::SubCo
         bs.setHeight(spinbox->rect.height() - 2 * fw);
         // 1.6 -approximate golden mean
         bs.setWidth(bs.height());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         bs = bs.expandedTo(QApplication::globalStrut());
+#else
+        bs = bs.expandedTo(QSize());
+#endif
         int y = fw;
         int x, lx, rx;
         x = spinbox->rect.right() - fw - bs.width();

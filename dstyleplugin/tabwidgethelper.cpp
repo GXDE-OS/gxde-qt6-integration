@@ -29,7 +29,11 @@ bool Style::drawFrameTabWidgetPrimitive( const QStyleOption* option, QPainter* p
     Q_UNUSED(widget)
 
     // cast option and check
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QStyleOptionTabWidgetFrameV2* tabOption( qstyleoption_cast<const QStyleOptionTabWidgetFrameV2*>( option ) );
+#else
+    const QStyleOptionTabWidgetFrame* tabOption( qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option ) );
+#endif
     if( !tabOption ) return true;
 
     // do nothing if tabbar is hidden

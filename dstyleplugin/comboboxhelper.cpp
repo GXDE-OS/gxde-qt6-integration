@@ -35,7 +35,12 @@ void Style::drawComboBoxPopupFramePrimitive(const QStyleOption *option, QPainter
     painter->setRenderHints(painter->renderHints() | QPainter::Antialiasing);
 
     painter->setPen(m_palette->brush(PaletteExtended::Menu_BorderColor).color());
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     painter->setBrush(option->palette.brush(QPalette::Background));
+#else
+    painter->setBrush(option->palette.brush(QPalette::Window));
+#endif
 
     painter->drawRoundedRect(rect, 4, 4);
 }
