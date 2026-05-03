@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/char/Desktop/Repository/GXDE/dtk2widget/src/**)"
+    ]
+  }
+}

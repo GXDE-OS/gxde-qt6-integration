@@ -1,27 +1,33 @@
-Source: gxde-qt5integration
+Source: gxde-qt6integration
 Section: devel
 Priority: optional
-Maintainer: gfdgd xi <3025613752@qq.com>
+Maintainer: CharOfString <markus_verify@126.com>
 Build-Depends:
  debhelper (>=9),
- qtbase5-dev,
- qtbase5-private-dev,
- libqt5xdg-dev,
- libdtkwidget2-dev,
  pkg-config,
- libqt5x11extras5-dev,
+ qt6-base-dev,
+ qt6-base-private-dev,
+ libdtk2widget6-dev,
  libfontconfig1-dev,
  libfreetype6-dev,
  libglib2.0-dev,
- libqt5svg5-dev,
- libqt5xdgiconloader-dev,
  libmtdev-dev,
  libegl1-mesa-dev,
- libxrender-dev
+ libxrender-dev,
 Standards-Version: 3.9.8
 
-Package: gxde-qt5integration
+Package: gxde-qt6integration
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, dde-qt5integration
-Description: Qt platform theme integration plugins for GXDE
- Multiple Qt plugins to provide better Qt5 integration for GXDE is included.
+Depends: ${shlibs:Depends}, ${misc:Depends}, libdtk2widget6
+Description: Qt6 style plugin for GXDE applications built on DTK 2.x
+ Provides libdstyleplugin-gxde-qt6.so, a Qt6 QStyle plugin that gives
+ DTK 2.x Qt6 applications a Deepin-style appearance (light, dark,
+ semi-light, semi-dark variants).
+ .
+ Style keys: dlight2 / ddark2 / dsemilight2 / dsemidark2.
+ .
+ Coexists with:
+   - gxde-qt5integration (Qt5 dstyleplugin-gxde, claims dlight/ddark/...)
+   - dde-qt6integration  (DTK 6.x chameleon, claims chameleon)
+ Installs to the standard Qt6 styles plugin dir alongside chameleon;
+ the keys never overlap so Qt's QStyleFactory routes correctly.
