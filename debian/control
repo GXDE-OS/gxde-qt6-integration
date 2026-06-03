@@ -18,7 +18,7 @@ Standards-Version: 3.9.8
 
 Package: gxde-qt6integration
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libdtk2widget6
+Depends: ${shlibs:Depends}, ${misc:Depends}, libdtk2widget6, dde-qt6integration
 Description: Qt6 style plugin for GXDE applications built on DTK 2.x
  Provides libdstyleplugin-gxde-qt6.so, a Qt6 QStyle plugin that gives
  DTK 2.x Qt6 applications a Deepin-style appearance (light, dark,

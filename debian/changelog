@@ -1,11 +1,15 @@
-gxde-qt6integration (6.0.1-1) UNRELEASED; urgency=medium
+gxde-qt6integration (6.0.1-2) UNRELEASED; urgency=medium
 
+  [ CharOfString ]
   * 尝试移植至Qt6，翻译Qt5与Qt6之间的API
   * 重构了plugin源码路径
   * 仅保留必要的dstyleplugin子工程
   * Style key由dlight/ddark等改为dlight2/ddark2/等以避免与系统chameleon以及旧集成冲突
 
- -- CharOfString <markus_verify@126.com>  Sun, 03 May 2026 05:41:08 -0500
+  [ gfdgd_xi ]
+  * 添加依赖 dde-qt6integration
+
+ -- gfdgd_xi <3025613752@qq.com>  Thu, 04 Jun 2026 07:40:31 +0800
 
 gxde-qt5integration (0.3.12-2) UNRELEASED; urgency=medium
 
