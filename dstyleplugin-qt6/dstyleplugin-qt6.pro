@@ -73,6 +73,10 @@ RESOURCES += \
     assets.qrc
 
 load(configure)
+
+# Enable DTK2 Blur
+DEFINES += DTK_SUPPORT_BLUR_WINDOW
+
 qtCompileTest(dtkwidget) {
     DEFINES += DTK_SUPPORT_BLUR_WINDOW
     message(The libdtkwidget support blur window)
