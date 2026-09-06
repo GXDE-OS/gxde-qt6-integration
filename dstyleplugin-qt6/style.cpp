@@ -1424,6 +1424,6 @@ void Style::fillBrush(QPainter *p, const QRect &rect, const QBrush &brush, qreal
     }
 }
 
-#include "moc_style.cpp"
-
 }
+
+#include "moc_style.cpp"
