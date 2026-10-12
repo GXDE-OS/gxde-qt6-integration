@@ -1,0 +1,33 @@
+# Maintainer: CharOfString <root@charofstring.cc>
+pkgname=gxde-qt6integration-git
+pkgver=6.0.1
+pkgrel=5
+pkgdesc='Qt6 style plugin for GXDE DTK2 Qt6 applications'
+arch=('x86_64' 'aarch64')
+url="https://github.com/GXDE-OS/gxde-qt6-integration"
+license=('GPL-3.0-or-later')
+depends=('dtk2widget-qt6-git' 'deepin-qt6integration-git' 'qt6-base' 'libgcc' 'libstdc++' 'glibc')
+makedepends=('git')
+provides=("gxde-qt6integration=$pkgver")
+conflicts=('gxde-qt6integration')
+source=()
+sha512sums=()
+
+# 直接使用 PKGBUILD 所在的 git 仓库作为源码 ・ Build from the git checkout this PKGBUILD lives in.
+_srcroot() {
+  git -C "$startdir" rev-parse --show-toplevel
+}
+
+build() {
+  mkdir -p build
+  cd build
+  qmake6 "$(_srcroot)/qt6integration.pro" \
+    QMAKE_CFLAGS_RELEASE="$CFLAGS" \
+    QMAKE_CXXFLAGS_RELEASE="$CXXFLAGS" \
+    QMAKE_LFLAGS_RELEASE="$LDFLAGS"
+  make
+}
+
+package() {
+  make -C build INSTALL_ROOT="$pkgdir" install
+}
