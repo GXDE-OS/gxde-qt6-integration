@@ -1,15 +1,16 @@
 # Maintainer: CharOfString <root@charofstring.cc>
-pkgname=gxde-qt6integration-git
+pkgname=gxde-qt6integration
 pkgver=6.0.1
 pkgrel=5
 pkgdesc='Qt6 style plugin for GXDE DTK2 Qt6 applications'
 arch=('x86_64' 'aarch64')
 url="https://github.com/GXDE-OS/gxde-qt6-integration"
 license=('GPL-3.0-or-later')
-depends=('dtk2widget-qt6-git' 'deepin-qt6integration-git' 'qt6-base' 'libgcc' 'libstdc++' 'glibc')
+depends=('dtk2widget-qt6' 'gxde-deepin-qt6integration' 'qt6-base' 'libgcc' 'libstdc++' 'glibc')
 makedepends=('git')
-provides=("gxde-qt6integration=$pkgver")
-conflicts=('gxde-qt6integration')
+provides=("gxde-qt6integration-git=$pkgver")
+conflicts=('gxde-qt6integration-git')
+replaces=('gxde-qt6integration-git')
 source=()
 sha512sums=()
 
